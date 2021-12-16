@@ -1,0 +1,19 @@
+@import "../../scss/variables";
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0rem 5rem;
+  transition: all 0.2s 0.7s;
+  overflow: hidden;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+
+  h2 {
+    font-size: 2.2rem;
+    color: $font-dark-light;
+    margin-bottom: 10px;
+  }
+}

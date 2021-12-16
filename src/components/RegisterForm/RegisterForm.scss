@@ -1,0 +1,18 @@
+@import "../../scss/variables";
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0rem 5rem;
+  overflow: hidden;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+
+  h2 {
+    font-size: 2.2rem;
+    color: $font-dark-light;
+    margin-bottom: 10px;
+  }
+}
