@@ -13,9 +13,9 @@ const RegisterForm = ({ from }) => {
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
-    password: "123123",
-    repeatPassword: "123123",
-    username: "lalala",
+    password: "",
+    repeatPassword: "",
+    username: "",
   });
 
   const changeForm = (e) => {
@@ -37,8 +37,8 @@ const RegisterForm = ({ from }) => {
     setLoading(true);
     try {
       await signup(inputs);
-      navigate(from, { replace: true });
       setLoading(false);
+      navigate(from, { replace: true });
     } catch (error) {
       setLoading(false);
       basicAlert(error.code, "error");

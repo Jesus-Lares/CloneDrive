@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import Layout from "./Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login";
 
@@ -47,7 +48,9 @@ const AppWrapper = () => {
   return (
     <Router>
       <AuthProvider>
-        <App />
+        <Layout>
+          <App />
+        </Layout>
       </AuthProvider>
     </Router>
   );

@@ -1,0 +1,47 @@
+@import "../../scss/variables";
+
+.sidebar {
+  width: 15vw;
+  border-right: 2px solid $border-grey-light;
+  padding-left: 25px;
+  h2 {
+    color: $font-grey-dark;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    li {
+      margin: 15px 0;
+      font-size: 1.1em;
+      color: $font-grey-dark;
+    }
+    a {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      color: $font-grey-dark;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    svg {
+      color: $background-grey;
+      text-align: center;
+      height: 100%;
+      line-height: 55px;
+      transition: 0.5s;
+      font-size: 1.3rem;
+      margin-right: 10px;
+    }
+  }
+}
+
+.active {
+  color: $primary-color !important;
+  svg {
+    color: $primary-color !important;
+  }
+}

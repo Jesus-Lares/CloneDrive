@@ -1,0 +1,76 @@
+@import "../../scss/variables";
+
+header {
+  display: flex;
+  width: 100%;
+  height: 10vh;
+  border-bottom: 3px solid $border-grey-light;
+  align-items: center;
+  nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 clamp(4px, 8vw, 80px);
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      li {
+        margin: 0 0.75em;
+        a {
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          font-size: 1.25em;
+          color: $font-grey-dark;
+        }
+      }
+    }
+  }
+}
+
+.logo {
+  margin: auto 0;
+  span {
+    font-size: 20px;
+    font-weight: 700;
+    color: $font-dark;
+    &:first-child {
+      display: none;
+    }
+    &:last-child {
+      display: block;
+    }
+  }
+}
+.user {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    color: $font-light;
+    font-size: 1.1em;
+    margin-left: 0.25em;
+  }
+}
+
+@media (max-width: $media-breackpoint-up-sm) {
+  .logo {
+    span {
+      &:first-child {
+        display: block;
+      }
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+}

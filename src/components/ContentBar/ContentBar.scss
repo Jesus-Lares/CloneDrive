@@ -1,0 +1,31 @@
+@import "../../scss/variables";
+.contentBar {
+  display: flex;
+  width: 80vw;
+  margin: 0 25px;
+  align-items: center;
+  justify-content: space-between;
+  a {
+    text-decoration: none;
+    color: $font-grey-dark;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.uploadContent {
+  button {
+    margin: 0 5px;
+    background: none;
+    border: none;
+    height: 41px;
+    font-weight: 500;
+    svg {
+      margin-right: 5px;
+      color: $font-dark-light;
+    }
+    &:hover {
+      background-color: $background-grey-light;
+    }
+  }
+}

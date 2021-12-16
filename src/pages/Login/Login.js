@@ -18,7 +18,7 @@ const Login = () => {
 
   const init = () => currentUser && navigate(from, { replace: true });
 
-  useEffect(init, [init]);
+  useEffect(init, []);
 
   return (
     <div className={`container ${signUp ? "sign-up-mode" : ""}`}>
