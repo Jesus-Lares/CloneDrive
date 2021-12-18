@@ -3,10 +3,11 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faTrash, faUser } from "@fortawesome/free-solid-svg-icons";
 
+import { useAuth } from "../../context/AuthContext";
 import "./Sidebar.scss";
 
 const Sidebar = () => {
-  let type = 3;
+  const { currentUser } = useAuth();
 
   return (
     <div className="sidebar">
@@ -20,7 +21,7 @@ const Sidebar = () => {
             </>
           </CustomLink>
         </li>
-        {type > 2 && (
+        {currentUser.type > 2 && (
           <li>
             <CustomLink to="/level2">
               <>
@@ -30,7 +31,7 @@ const Sidebar = () => {
             </CustomLink>
           </li>
         )}
-        {type > 1 && (
+        {currentUser.type > 1 && (
           <li>
             <CustomLink to="/level1">
               <>

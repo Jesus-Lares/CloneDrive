@@ -1,0 +1,59 @@
+@import "../../scss/variables";
+
+.progressModal {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
+  width: clamp(150px, 28vw, 300px);
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: -4px -2px 15px -3px rgba(0, 0, 0, 0.5);
+  box-shadow: -4px -2px 15px -3px rgba(0, 0, 0, 0.5);
+  .headerModal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $font-light;
+    background: $primary-color;
+    padding: 10px;
+    h5 {
+      margin: 0 !important;
+    }
+    svg {
+      cursor: pointer;
+    }
+  }
+  .bodyModal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 2em;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
+        span {
+          width: 25px !important;
+          height: 25px !important;
+          margin-right: 10px;
+          svg {
+            width: 25px !important;
+            height: 25px !important;
+          }
+        }
+        div {
+          display: flex;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

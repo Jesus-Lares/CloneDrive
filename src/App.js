@@ -22,7 +22,39 @@ const App = () => {
       ),
     },
     {
-      path: "/component2",
+      path: "/level2",
+      element: (
+        <RequireAuth>
+          <Dashboard />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: "/level2/folder/:folderId",
+      element: (
+        <RequireAuth>
+          <Dashboard />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: "/level1",
+      element: (
+        <RequireAuth>
+          <Dashboard />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: "/level1/folder/:folderId",
+      element: (
+        <RequireAuth>
+          <Dashboard />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: "/folder/:folderId",
       element: (
         <RequireAuth>
           <Dashboard />
@@ -41,7 +73,7 @@ const RequireAuth = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 const AppWrapper = () => {

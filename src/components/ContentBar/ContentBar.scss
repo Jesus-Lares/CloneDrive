@@ -1,10 +1,10 @@
 @import "../../scss/variables";
 .contentBar {
   display: flex;
-  width: 80vw;
-  margin: 0 25px;
   align-items: center;
   justify-content: space-between;
+  padding: 0 2vw;
+  border-bottom: 2px solid $background-grey-light;
   a {
     text-decoration: none;
     color: $font-grey-dark;
@@ -14,18 +14,37 @@
   }
 }
 .uploadContent {
-  button {
+  button,
+  label {
     margin: 0 5px;
     background: none;
     border: none;
-    height: 41px;
-    font-weight: 500;
+    font-size: 0.9em;
+    cursor: pointer;
     svg {
       margin-right: 5px;
       color: $font-dark-light;
     }
     &:hover {
       background-color: $background-grey-light;
+    }
+  }
+}
+
+form {
+  padding: 0 !important;
+  div {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    .transparent {
+      color: $error;
+      border: 2px solid $error !important;
+      background-color: transparent;
+      &:hover {
+        color: $font-light;
+        background-color: $error;
+      }
     }
   }
 }

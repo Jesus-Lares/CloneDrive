@@ -1,9 +1,9 @@
 @import "../../scss/variables";
 
 .sidebar {
-  width: 15vw;
+  width: 100%;
   border-right: 2px solid $border-grey-light;
-  padding-left: 25px;
+  max-width: 18vw;
   h2 {
     color: $font-grey-dark;
     font-size: 1.2em;
@@ -37,11 +37,10 @@
       margin-right: 10px;
     }
   }
-}
-
-.active {
-  color: $primary-color !important;
-  svg {
+  .active {
     color: $primary-color !important;
+    svg {
+      color: $primary-color !important;
+    }
   }
 }

@@ -3,23 +3,19 @@ import { useLocation } from "react-router-dom";
 
 import Navbar from "../components/Navbar/Navbar";
 import Sidebar from "../components/Sidebar/Sidebar";
-import ContentBar from "../components/ContentBar/ContentBar";
-import "./Layout.scss";
+import { useAuth } from "../context/AuthContext";
 
 const Layout = ({ children }) => {
   const { pathname } = useLocation();
-
-  return pathname === "/login" ? (
+  const { currentUser } = useAuth();
+  return pathname === "/login" || currentUser === null ? (
     <>{children}</>
   ) : (
     <>
       <Navbar />
       <main>
         <Sidebar />
-        <div>
-          <ContentBar />
-          {children}
-        </div>
+        <div className="content">{children}</div>
       </main>
     </>
   );

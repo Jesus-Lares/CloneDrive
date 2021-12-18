@@ -14,10 +14,13 @@
     "@testing-library/user-event": "^12.1.10",
     "firebase": "^9.6.1",
     "react": "^17.0.2",
+    "react-doc-viewer": "^0.1.5",
     "react-dom": "^17.0.2",
+    "react-file-viewer": "^1.2.1",
     "react-router-dom": "^6.1.1",
     "react-scripts": "4.0.3",
     "sweetalert2": "^11.3.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

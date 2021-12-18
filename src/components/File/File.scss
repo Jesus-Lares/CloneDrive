@@ -1,0 +1,24 @@
+.file {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0006;
+}
+.active {
+  display: block;
+  svg {
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 4vw;
+  top: 20px;
+  font-size: 1.5em;
+  z-index: 1000;
+}

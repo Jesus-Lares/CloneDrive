@@ -1,4 +1,15 @@
 .dashboard {
   height: 100%;
+  margin-left: 2vw;
+  margin-top: 2vh;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .containFolders {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-gap: 0 10px;
+  }
 }
