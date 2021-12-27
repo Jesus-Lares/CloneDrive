@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login";
+import Trash from "./pages/Trash";
 
 const App = () => {
   let routes = useRoutes([
@@ -58,6 +59,14 @@ const App = () => {
       element: (
         <RequireAuth>
           <Dashboard />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: "/trash",
+      element: (
+        <RequireAuth>
+          <Trash />
         </RequireAuth>
       ),
     },

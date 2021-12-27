@@ -46,3 +46,6 @@ main {
     background-color: $background-grey-dark;
   }
 }
+.swal2-container {
+  z-index: 1000000;
+}

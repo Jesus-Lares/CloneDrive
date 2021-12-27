@@ -1,36 +1,35 @@
 @import "../../scss/variables";
 .folder {
-  display: inline-block;
   height: 35px;
-  width: 100%;
+  width: 200px;
   padding: 0 10px;
   margin: 10px;
   text-align: left;
   background: none;
   transition: all 0.2s ease-in;
-  overflow: hidden;
-  text-overflow: ellipsis;
   border: 2px solid $border-grey-dark;
   border-radius: 7px;
+  font-size: 1em;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: $font-grey-dark;
 
   &:hover {
     background: $background-grey-dark;
-    div {
-      color: $font-light;
-    }
+    color: $font-light;
   }
   div {
-    font-size: 1.25em;
-    text-decoration: none;
-    color: $font-grey-dark;
+    max-width: 100%;
     white-space: nowrap;
-    box-sizing: content-box;
-    span {
-      line-clamp: unset;
-    }
-    svg {
-      margin-right: 7px;
-    }
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
+  svg {
+    margin-right: 7px;
+  }
+}
+.folder_active {
+  background: $background-grey-dark;
+  color: $font-light;
 }

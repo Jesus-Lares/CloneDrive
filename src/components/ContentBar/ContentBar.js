@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal, Box } from "@mui/material";
 import { v4 as uuidV4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFolder,
+  faInfoCircle,
   faPlusCircle,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +17,7 @@ import { database, storage } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
 import { ROOT_FOLDER } from "../../hooks/useFolder";
 import "./ContentBar.scss";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -30,9 +32,20 @@ const style = {
   px: 4,
   pb: 3,
 };
-const ContentBar = ({ currentFolder, mainPath }) => {
+const ContentBar = ({
+  currentFolder,
+  mainPath,
+  selection,
+  setSelection,
+  setFile,
+}) => {
   const { currentUser } = useAuth();
+  const typeSelection = useRef(true);
+  const pathLink = mainPath === null ? "" : `/${mainPath}`;
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
+  const [optionsVisible, setOptionsVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
   const [uploadFiles, setUploadFiles] = useState([]);
   const [nameFolder, setNameFolder] = useState("");
 
@@ -41,6 +54,7 @@ const ContentBar = ({ currentFolder, mainPath }) => {
   };
   const closeModal = () => {
     setVisible(false);
+    setEditVisible(false);
     setNameFolder("");
   };
   const closeModalProgress = () => {
@@ -50,6 +64,8 @@ const ContentBar = ({ currentFolder, mainPath }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (nameFolder.trim() === "")
+        return basicAlert("Debe ingresar un nombre", "warning");
       if (currentFolder === null) return;
 
       const path = [...currentFolder.path];
@@ -156,6 +172,82 @@ const ContentBar = ({ currentFolder, mainPath }) => {
       }
     );
   };
+
+  const deleteSelection = () => {
+    if (typeSelection.current) {
+      deleteFolder();
+    } else {
+      deleteFile();
+    }
+    setSelection(null);
+  };
+  const deleteFile = async () => {
+    const trash = {
+      ...selection,
+      deletedAt: database.getCurrentTimestamp(),
+      deletedBy: currentUser.id,
+    };
+    await database.trash.doc(selection.id).set(trash);
+    database.files
+      .doc(selection.id)
+      .delete()
+      .then(() => {
+        basicAlert("Archivo enviado a la papelera", "success");
+      });
+  };
+  const deleteFolder = async () => {
+    console.log(selection);
+    const trash = {
+      ...selection,
+      deletedAt: database.getCurrentTimestamp(),
+      deletedBy: currentUser.id,
+    };
+    await database.trash.doc(selection.id).set(trash);
+    database.folders
+      .doc(selection.id)
+      .delete()
+      .then(() => {
+        basicAlert("Carpeta enviada a la papelera", "success");
+      });
+  };
+  const editName = async (e) => {
+    e.preventDefault();
+    if (nameFolder.trim() === "")
+      return basicAlert("Debe ingresar un nombre", "warning");
+    let db = null;
+    let name = nameFolder;
+    if (typeSelection.current) {
+      db = database.folders;
+    } else {
+      db = database.files;
+      const split = selection.name.split(".");
+      name += "." + split[split.length - 1];
+    }
+    db.doc(selection.id).update({
+      name,
+    });
+    basicAlert("El nombre se cambio con exito");
+    closeModal();
+  };
+
+  useEffect(() => {
+    if (selection?.folderId) {
+      typeSelection.current = false;
+    } else {
+      typeSelection.current = true;
+    }
+  }, [selection]);
+  useEffect(() => {
+    setSelection(null);
+    window.addEventListener("click", (e) => {
+      if (document.getElementById("infoSelection")) {
+        if (!document.getElementById("infoSelection").contains(e.target)) {
+          setOptionsVisible(false);
+        }
+      }
+    });
+    return window.removeEventListener("click", () => {});
+  }, []);
   return (
     <div className="contentBar">
       <FolderBreadcrumbs
@@ -164,6 +256,52 @@ const ContentBar = ({ currentFolder, mainPath }) => {
         currentFolder={currentFolder}
       />
       <div className="uploadContent">
+        {selection !== null && (
+          <div id="infoSelection">
+            <button onClick={() => setOptionsVisible((v) => !v)}>
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </button>
+            {optionsVisible && (
+              <div className="optionsSelection">
+                <ul>
+                  <li>
+                    <button
+                      onClick={() => {
+                        if (typeSelection.current) {
+                          navigate(`${pathLink}/folder/${selection.id}`);
+                        } else {
+                          setFile(selection);
+                        }
+                      }}
+                    >
+                      Abrir
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setEditVisible(true);
+                        if (selection.name.split(".").length > 1) {
+                          setNameFolder(
+                            selection.name.split(".").slice(0, -1).join(".")
+                          );
+                        } else {
+                          setNameFolder(selection.name);
+                        }
+                        setVisible(true);
+                      }}
+                    >
+                      Cambiar nombre
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={deleteSelection}>Eliminar</button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
         <button onClick={() => setVisible(true)}>
           <FontAwesomeIcon icon={faPlusCircle} />
           Nueva Carpeta
@@ -185,14 +323,26 @@ const ContentBar = ({ currentFolder, mainPath }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ ...style, width: 400 }}>
-          <h3>Nueva Carpeta</h3>
-          <form onChange={changeForm} onSubmit={handleSubmit}>
-            <Input icon={faFolder} name="folder" placeholder="Nombre" />
+          <h3>{editVisible ? "Cambiar nombre" : "Nueva carpeta"}</h3>
+          <form
+            onChange={changeForm}
+            onSubmit={editVisible ? editName : handleSubmit}
+          >
+            <Input
+              icon={faFolder}
+              name="folder"
+              value={nameFolder}
+              placeholder="Nombre"
+            />
             <div>
               <button onClick={closeModal} className="btn transparent">
                 Cancelar
               </button>
-              <input value="Crear" type="submit" className="btn " />
+              <input
+                value={editVisible ? "Cambiar" : "Crear"}
+                type="submit"
+                className="btn "
+              />
             </div>
           </form>
         </Box>

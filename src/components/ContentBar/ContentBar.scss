@@ -14,9 +14,16 @@
   }
 }
 .uploadContent {
+  position: relative;
+  div {
+    display: inline-block;
+    svg {
+      font-size: 1rem;
+    }
+  }
   button,
   label {
-    margin: 0 5px;
+    margin: 0 2.5px;
     background: none;
     border: none;
     font-size: 0.9em;
@@ -30,7 +37,43 @@
     }
   }
 }
+.optionsSelection {
+  position: absolute;
+  left: -100px;
+  top: 125%;
+  background-color: $background-light;
+  border: 1px solid $background-grey-light;
+  background: #fafafa;
+  -webkit-box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+  padding: 0.5em 0.5em;
+  ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 0;
+    padding-inline-start: 0 !important;
+    font-size: 0.65em;
+    margin-block-start: 0 !important;
+    list-style: none;
+    li {
+      width: 100%;
+      padding: 5px 0;
+      margin: 0;
 
+      button {
+        width: 100%;
+        font-size: 1.2em;
+        text-decoration: none;
+        text-align: start;
+      }
+      &:hover {
+        background: $font-grey-light;
+      }
+    }
+  }
+}
 form {
   padding: 0 !important;
   div {
