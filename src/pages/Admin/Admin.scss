@@ -1,0 +1,40 @@
+@import "../../scss/variables";
+.users {
+  height: 100%;
+  width: 90%;
+  margin-left: 1em;
+
+  &_list {
+    padding-inline-start: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid $background-grey-light;
+      & > :nth-child(1) {
+        margin: 10px;
+      }
+      & > :nth-child(2) {
+        margin: 10px;
+        margin-right: auto;
+      }
+      & > :nth-child(3) {
+        svg {
+          color: $background-grey-dark;
+          margin: 0 10px;
+          cursor: pointer;
+        }
+      }
+
+      h4,
+      p {
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+      }
+    }
+    & :last-child {
+      border-bottom: 0;
+    }
+  }
+}

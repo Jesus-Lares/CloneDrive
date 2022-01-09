@@ -16,9 +16,14 @@ header {
       display: flex;
       flex-direction: row;
       align-items: center;
+      margin-left: auto;
       li {
         margin: 0 0.75em;
         position: relative;
+        a {
+          color: $primary-color;
+          text-decoration: none;
+        }
         button {
           text-decoration: none;
           display: flex;
@@ -30,6 +35,9 @@ header {
           cursor: pointer;
           &:hover {
             background: $background-grey-light;
+          }
+          & > :last-child {
+            margin-left: 8px;
           }
         }
       }

@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./Layout/Layout";
+import Admin from "./pages/Admin/Admin";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login";
 import Trash from "./pages/Trash";
@@ -70,6 +71,14 @@ const App = () => {
         </RequireAuth>
       ),
     },
+    {
+      path: "/users",
+      element: (
+        <RequireAdmin>
+          <Admin />
+        </RequireAdmin>
+      ),
+    },
   ]);
   return <>{routes}</>;
 };
@@ -79,6 +88,16 @@ const RequireAuth = ({ children }) => {
   let location = useLocation();
 
   if (!currentUser) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  return <>{children}</>;
+};
+const RequireAdmin = ({ children }) => {
+  let { currentUser } = useAuth();
+  let location = useLocation();
+
+  if (currentUser?.type !== 3) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 

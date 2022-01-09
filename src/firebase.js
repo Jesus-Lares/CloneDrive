@@ -17,7 +17,8 @@ export const database = {
   folders: firestore.collection("folders"),
   files: firestore.collection("files"),
   users: firestore.collection("users"),
-  trash: firestore.collection("trash"),
+  trashFiles: firestore.collection("trashFiles"),
+  trashFolders: firestore.collection("trashFolders"),
   formatDoc: (doc) => {
     return { id: doc.id, ...doc.data() };
   },

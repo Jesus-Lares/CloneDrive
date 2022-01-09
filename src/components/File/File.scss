@@ -1,7 +1,7 @@
 @import "../../scss/variables";
 
 .file {
-  height: 200px;
+  height: 180px;
   width: 100%;
   border: 1px solid $border-grey-dark;
   border-radius: 5px;
@@ -11,11 +11,19 @@
   justify-content: space-between;
   align-items: center;
   transition: all 0.2s ease-in;
-
+  user-select: none;
   cursor: pointer;
   span {
+    max-width: 90%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     margin: 5px;
   }
+  svg {
+    color: $background-grey-dark !important;
+  }
+
   &:hover {
     background-color: $background-grey-dark;
     color: $font-light;
@@ -29,7 +37,6 @@
   flex: 1;
   width: 100%;
   background-color: white;
-  color: red;
   border-bottom: 1px solid $border-grey-dark;
   display: flex;
   align-items: center;

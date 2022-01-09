@@ -1,0 +1,41 @@
+@import "../../scss/variables";
+.trash {
+  ul {
+    margin-left: 2vw;
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 180px);
+    grid-gap: 0 10px;
+
+    li {
+      padding: 8px 0;
+      font-size: 1.1em;
+      color: $font-grey-dark;
+      cursor: pointer;
+    }
+    a {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      color: $font-grey-dark;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+    svg {
+      color: $background-grey;
+      text-align: center;
+      height: 100%;
+      line-height: 55px;
+      transition: 0.5s;
+    }
+  }
+}
+
+.active {
+  color: $primary-color !important;
+  svg {
+    color: $primary-color !important;
+  }
+}

@@ -1,12 +1,16 @@
+import { Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import ModalEdit from "../ModalEdit/ModalEdit";
 import "./Navbar.scss";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, photo, setPhoto } = useAuth();
   const [visible, setVisible] = useState(false);
+  const [visibleEdit, setVisibleEdit] = useState(false);
+
   useEffect(() => {
     window.addEventListener("click", (e) => {
       if (document.getElementById("cardUser")) {
@@ -27,8 +31,8 @@ const Navbar = () => {
         <ul>
           {currentUser?.type === 3 && (
             <li>
-              <Link to="/admin">
-                <span>Admin</span>
+              <Link to="/users">
+                <span>Usuarios</span>
               </Link>
             </li>
           )}
@@ -38,19 +42,12 @@ const Navbar = () => {
               className="user"
             >
               <span>{currentUser.name}</span>
-              {currentUser?.photoURL ? (
-                <img src="" alt="user" />
-              ) : (
-                <div className="letter">{currentUser.name[0]}</div>
-              )}
+              <Avatar src={photo}>{currentUser.name[0]}</Avatar>
             </button>
             <div className={`cardUser ${visible ? "active" : ""}`}>
               <div className="info">
-                {currentUser?.photoURL ? (
-                  <img src="" alt="user" />
-                ) : (
-                  <div className="letter">{currentUser.name[0]}</div>
-                )}
+                <Avatar src={photo}>{currentUser.name[0]}</Avatar>
+
                 <div className="text">
                   <p>{currentUser.name}</p>
                   <p>{currentUser.email}</p>
@@ -59,7 +56,12 @@ const Navbar = () => {
               <hr />
               <ul>
                 <li>
-                  <button>Editar perfil</button>
+                  <button onClick={() => setVisibleEdit(true)}>
+                    Editar perfil
+                  </button>
+                </li>
+                <li>
+                  <button>Cambiar Contraseña</button>
                 </li>
                 <li>
                   <button onClick={() => logout(navigate)}>
@@ -70,6 +72,14 @@ const Navbar = () => {
             </div>
           </li>
         </ul>
+        {visibleEdit && (
+          <ModalEdit
+            visible={visibleEdit}
+            selection={currentUser}
+            onClose={() => setVisibleEdit(false)}
+            setPhoto={(newPhoto) => setPhoto(newPhoto)}
+          />
+        )}
       </nav>
     </header>
   );

@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { basicAlert } from "../components/Alert";
 import { auth, database } from "../firebase";
 
 const AuthContext = createContext();
@@ -9,7 +11,9 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const signup = async (user) => {
     await auth
@@ -50,9 +54,24 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user !== null) {
         const response = await database.users.doc(user.uid).get();
-        setCurrentUser(database.formatDoc(response));
+        if (!response.exists) {
+          setCurrentUser(null);
+          setPhoto(null);
+          await auth.currentUser.delete().then(() => {
+            basicAlert(
+              "Tu usuario fue eliminado por un administrador",
+              "warning"
+            );
+            logout(navigate);
+          });
+        } else {
+          const data = database.formatDoc(response);
+          setCurrentUser(data);
+          setPhoto(data.photo);
+        }
       } else {
         setCurrentUser(null);
+        setPhoto(null);
       }
       setLoading(false);
     });
@@ -61,6 +80,8 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    photo,
+    setPhoto,
     signup,
     login,
     logout,

@@ -1,5 +1,5 @@
 import React from "react";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FileViewer from "react-file-viewer";
 
@@ -28,12 +28,38 @@ const ViewFiles = ({ file, setFile }) => {
       case "pdf":
         return (
           <div>
-            <h1>pdf</h1>
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+              name={file.name}
+              src={file.url}
+              frameBorder="0"
+            />
           </div>
         );
 
       default:
-        return <div>Formato no valido</div>;
+        return (
+          <div className="noView">
+            <div>
+              <h3>
+                No hay ninguna vista previa disponible para archivos con la
+                extension .{typeFile}
+              </h3>
+              <a href={file.url} download target="_blank" rel="noreferrer">
+                <button className="btn">
+                  <FontAwesomeIcon icon={faDownload} />
+                  Descargar
+                </button>
+              </a>
+            </div>
+          </div>
+        );
     }
   };
 

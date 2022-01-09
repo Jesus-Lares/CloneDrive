@@ -11,6 +11,7 @@ const ACTIONS = {
 export const ROOT_FOLDER = { name: "Root", id: null, path: [] };
 export const LEVEL1_FOLDER = { name: "Level1", id: null, path: [] };
 export const LEVEL2_FOLDER = { name: "Level2", id: null, path: [] };
+export const TRASH_FOLDER = { name: "Papelera", id: null, path: [] };
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -87,10 +88,15 @@ export const useFolder = (folderId = null, mainFolder = "") => {
             type: ACTIONS.UPDATE_FOLDER,
             payload: { folder: LEVEL1_FOLDER },
           });
-        } else {
+        } else if (path === "level2") {
           dispatch({
             type: ACTIONS.UPDATE_FOLDER,
             payload: { folder: LEVEL2_FOLDER },
+          });
+        } else if (path === "trash") {
+          dispatch({
+            type: ACTIONS.UPDATE_FOLDER,
+            payload: { folder: TRASH_FOLDER },
           });
         }
       }
@@ -98,28 +104,54 @@ export const useFolder = (folderId = null, mainFolder = "") => {
   }, [folderId, mainFolder]);
 
   useEffect(() => {
-    return fetchData(
-      database.folders,
-      ACTIONS.SET_CHILD_FOLDERS,
-      { childFolders: [] },
-      path,
-      "childFolders",
-      currentUser,
-      folderId,
-      dispatch
-    );
+    if (mainFolder === "trash") {
+      return fetchData(
+        database.trashFolders,
+        ACTIONS.SET_CHILD_FOLDERS,
+        { childFolders: [] },
+        path,
+        "childFolders",
+        currentUser,
+        folderId,
+        dispatch
+      );
+    } else {
+      return fetchData(
+        database.folders,
+        ACTIONS.SET_CHILD_FOLDERS,
+        { childFolders: [] },
+        path,
+        "childFolders",
+        currentUser,
+        folderId,
+        dispatch
+      );
+    }
   }, [folderId, currentUser, mainFolder]);
   useEffect(() => {
-    return fetchData(
-      database.files,
-      ACTIONS.SET_CHILD_FILES,
-      { childFiles: [] },
-      path,
-      "childFiles",
-      currentUser,
-      folderId,
-      dispatch
-    );
+    if (mainFolder === "trash") {
+      return fetchData(
+        database.trashFiles,
+        ACTIONS.SET_CHILD_FILES,
+        { childFiles: [] },
+        path,
+        "childFiles",
+        currentUser,
+        folderId,
+        dispatch
+      );
+    } else {
+      return fetchData(
+        database.files,
+        ACTIONS.SET_CHILD_FILES,
+        { childFiles: [] },
+        path,
+        "childFiles",
+        currentUser,
+        folderId,
+        dispatch
+      );
+    }
   }, [folderId, currentUser, mainFolder]);
 
   return state;
@@ -150,7 +182,17 @@ const fetchData = (
         });
       });
   } else {
-    if (typeFolder < currentUser.type) {
+    if (path === "trash") {
+      return db
+        .where("deletedBy", "==", currentUser.id)
+        .onSnapshot((snapshot) => {
+          payload[file] = snapshot.docs.map(database.formatDoc);
+          dispatch({
+            type,
+            payload,
+          });
+        });
+    } else if (typeFolder < currentUser.type) {
       return db
         .where(search, "==", folderId)
         .where("type", "==", typeFolder)
